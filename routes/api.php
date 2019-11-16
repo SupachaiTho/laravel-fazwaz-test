@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/properties', 'Api\PropertiesController@index')->name('properties.api');;
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

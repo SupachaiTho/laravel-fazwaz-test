@@ -14,8 +14,8 @@ class CreatePropertiesTable extends Migration
     public function up()
     {
         Schema::create('properties', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
+            $table->bigIncrements('property_id');
+            $table->string('property_title');
             $table->text('description');
             $table->integer('bedroom')->default(0);
             $table->integer('bathroom')->default(0);

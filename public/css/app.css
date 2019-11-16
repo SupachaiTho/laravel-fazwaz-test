@@ -11100,3 +11100,48 @@ a.text-dark:focus {
   }
 }
 
+.projects {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.projects .tableFilters {
+  margin-bottom: 10px;
+}
+
+.projects .tableFilters input {
+  width: 175px;
+}
+
+.projects .tableFilters .control {
+  float: right;
+}
+
+.projects .table {
+  width: 100%;
+}
+
+.projects .table .sorting {
+  background-image: url(/images/sort-up-down.png?521e8cb32c4abc2c834d2988b12ab489);
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+.projects .table .sorting_asc {
+  background-image: url(/images/sort-up.png?6e17d7441db4304f2538072a728dc25f);
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+.projects .table .sorting_desc {
+  background-image: url(/images/sort-down.png?f402891487a1c8a14436920f78ca573d);
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+h1 {
+  text-align: center;
+  font-size: 30px;
+}
+

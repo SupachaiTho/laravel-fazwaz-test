@@ -44,25 +44,4 @@ class PropertyTest extends TestCase
         ->where('region_id', 4)
         ->count());
     }
-
-    public function test_property_type_title_attribute()
-    {
-        $this->assertEquals(Property::first()->property_type_title, Property::first()->property_type->title);
-    }
-
-    public function test_status_title_attribute()
-    {
-        $this->assertEquals(Property::first()->status_title, Property::first()->status->title);
-    }
-
-    public function test_countyr_attribute()
-    {
-        $this->assertEquals(Property::first()->country, Property::first()->region->country->title);
-    }
-
-    public function test_project_title_attribute()
-    {
-        $this->assertEquals(Property::first()->project_title, Property::first()->project->title);
-    }
-
 }

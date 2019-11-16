@@ -21,20 +21,4 @@ class Property extends Model
     public function project() {
         return $this->belongsTo(Project::class);
     }
-
-    public function getStatusTitleAttribute() {
-        return $this->status->title;
-    }
-
-    public function getPropertyTypeTitleAttribute() {
-        return $this->property_type->title;
-    }
-
-    public function getProjectTitleAttribute() {
-        return $this->project->title;
-    }
-
-    public function getCountryAttribute() {
-        return $this->region->country->title;
-    }
 }

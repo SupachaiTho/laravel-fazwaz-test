@@ -6,8 +6,8 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Property::class, function (Faker $faker) {
     return [
-        'title' => rtrim($faker->sentence(rand(1, 3)), "."),
-        'description' => $faker->paragraphs(rand(1, 4), true),
+        'property_title' => $faker->name,
+        'description' => $faker->text,
         'bedroom' => $faker->randomDigitNot(2),
         'bathroom' => rand(0,3),
         'for_sale' => $faker->boolean,
@@ -30,10 +30,10 @@ $factory->define(App\Property::class, function (Faker $faker) {
 $factory->state(App\Property::class, 'active_condo', function() {
     return [
         'status_id' => function () {
-            return App\Status::where('title', '=', 'Active')->first()->id;
+            return App\Status::where('status_title', '=', 'Active')->first()->id;
         },
         'property_type_id' => function () {
-            return App\PropertyType::where('title', '=', 'Condo')->first()->id;
+            return App\PropertyType::where('property_type_title', '=', 'Condo')->first()->id;
         },
         'for_sale' => true,
         'bedroom' => 2,
