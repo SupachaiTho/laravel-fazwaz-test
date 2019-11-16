@@ -14,11 +14,11 @@ class Property extends Model
         return $this->belongsTo(Status::class);
     }
 
-    public function counties() {
-        return $this->belongsTo(County::class);
+    public function regions() {
+        return $this->belongsTo(Region::class);
     }
 
     public function projects() {
-        return $this->belongsToMany(Project::class, 'projects_properties');
+        return $this->belongsTo(Project::class);
     }
 }

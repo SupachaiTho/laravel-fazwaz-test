@@ -19,11 +19,12 @@ class CreatePropertiesTable extends Migration
             $table->text('description');
             $table->integer('bedroom')->default(0);
             $table->integer('bathroom')->default(0);
-            $table->unsignedBigInteger('property_type_id');
-            $table->unsignedBigInteger('status_id');
             $table->boolean('for_sale')->default(false);
             $table->boolean('for_rent')->default(false);
-            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('property_type_id');
+            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('region_id');
+            $table->unsignedBigInteger('project_id');
             $table->timestamps();
         });
     }
