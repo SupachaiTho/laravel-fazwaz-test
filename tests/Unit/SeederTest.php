@@ -73,7 +73,7 @@ class SeederTest extends TestCase
     public function test_have_2001_properties()
     {
         $this->assertEquals(1, count(\DB::select('
-            SELECT project_id, count(property_id) as num
+            SELECT project_id, count(id) as num
             FROM properties
             GROUP BY project_id
             HAVING num = 2001')
