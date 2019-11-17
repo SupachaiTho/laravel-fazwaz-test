@@ -5,7 +5,9 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Property::class, function (Faker $faker) {
+    static $number = 1;
     return [
+        'property_id' => $number++,
         'property_title' => $faker->name,
         'description' => $faker->text,
         'bedroom' => $faker->randomDigitNot(2),
