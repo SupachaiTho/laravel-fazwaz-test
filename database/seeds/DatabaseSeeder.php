@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             CountriesTableSeeder::class,
             RegionsTableSeeder::class,
             ProjectsTableSeeder::class,
-            PropertiesTableSeeder::class,
+            // PropertiesTableSeeder::class,
         ]);
     }
 }
