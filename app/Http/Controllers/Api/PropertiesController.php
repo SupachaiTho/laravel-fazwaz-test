@@ -89,7 +89,7 @@ class PropertiesController extends Controller
             ->when($filterCountry, function($query, $filterCountry){
                 return $query->whereRaw("country_title = '$filterCountry'");
             });
-        // echo($query->toSql());
+
         $properties = $query->paginate($length);
         return ['data' => $properties, 'draw' => $request->input('draw')];
     }
