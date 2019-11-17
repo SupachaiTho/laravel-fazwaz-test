@@ -47,3 +47,12 @@ $factory->state(App\Property::class, 'first_project', function() {
         },
     ];
 });
+
+$factory->state(App\Property::class, 'unit_test', function() {
+    return [
+        'region_id' => factory(App\Region::class)->states('unit_test')->create()->id,
+        'property_type_id' => factory(App\PropertyType::class)->create()->id,
+        'project_id' => factory(App\Project::class)->create()->id,
+        'status_id' => factory(App\Status::class)->create()->id,
+    ];
+});

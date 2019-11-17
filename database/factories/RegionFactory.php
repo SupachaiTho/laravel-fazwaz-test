@@ -13,3 +13,9 @@ $factory->define(App\Region::class, function (Faker $faker) {
         },
     ];
 });
+
+$factory->state(App\Region::class, 'unit_test', function() {
+    return [
+        'country_id' => factory(App\Country::class)->create()->id,
+    ];
+});

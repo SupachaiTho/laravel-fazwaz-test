@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PropertyCollection;
 use App\Property;
 use Illuminate\Http\Request;
 
@@ -27,9 +28,9 @@ class PropertiesController extends Controller
             'project_title',
             'country_title',
         ];
-        $length = $request->input('length');
-        $column = $request->input('column'); //Index
-        $dir = $request->input('dir');
+        $length = $request->input('length', 20);
+        $column = $request->input('column', 0); //Index
+        $dir = $request->input('dir', 'asc');
         $filterTitle = $request->input('filterTitle');
         $filterDescription = $request->input('filterDescription');
         $filterBedroom = $request->input('filterBedroom');
@@ -90,7 +91,7 @@ class PropertiesController extends Controller
                 return $query->whereRaw("country_title = '$filterCountry'");
             });
 
-        $properties = $query->paginate($length);
+        $properties = new PropertyCollection($query->paginate($length));
         return ['data' => $properties, 'draw' => $request->input('draw')];
     }
 

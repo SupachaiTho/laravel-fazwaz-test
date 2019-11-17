@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Country;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CountryResource;
 use Illuminate\Http\Request;
 
 class CountriesController extends Controller
@@ -15,9 +16,11 @@ class CountriesController extends Controller
      */
     public function index()
     {
-        $counties = Country::select('id', 'country_title')
+        $counties = CountryResource::collection(
+            Country::select('id', 'country_title')
             ->orderBy('country_title', 'asc')
-            ->get();
+            ->get()
+        );
 
         return ['data'=>$counties];
     }

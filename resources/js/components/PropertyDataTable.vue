@@ -153,7 +153,7 @@ export default {
                     let data = response.data;
                     if (this.tableData.draw == data.draw) {
                         this.properties = data.data.data;
-                        this.configPagination(data.data);
+                        this.configPagination(data.data.pagination);
                     }
                 })
                 .catch(errors => {

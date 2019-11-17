@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PropertyTypeResource;
 use App\PropertyType;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class PropertyTypesController extends Controller
      */
     public function index()
     {
-        $property_types = PropertyType::select('id', 'property_type_title')->get();
+        $property_types = PropertyTypeResource::collection(PropertyType::select('id', 'property_type_title')->get());
 
         return ['data'=>$property_types];
     }

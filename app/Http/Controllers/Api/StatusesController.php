@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StatusResource;
 use App\Status;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class StatusesController extends Controller
      */
     public function index()
     {
-        $statuses = Status::select('id', 'status_title')->get();
+        $statuses = StatusResource::collection(Status::select('id', 'status_title')->get());
 
         return ['data'=>$statuses];
     }

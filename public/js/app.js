@@ -2144,7 +2144,7 @@ __webpack_require__.r(__webpack_exports__);
         if (_this.tableData.draw == data.draw) {
           _this.properties = data.data.data;
 
-          _this.configPagination(data.data);
+          _this.configPagination(data.data.pagination);
         }
       })["catch"](function (errors) {
         console.log(errors);
