@@ -9,7 +9,7 @@ $factory->define(App\Property::class, function (Faker $faker) {
         'property_title' => $faker->name,
         'description' => $faker->text,
         'bedroom' => $faker->randomDigitNot(2),
-        'bathroom' => rand(0,3),
+        'bathroom' => rand(0,10),
         'for_sale' => $faker->boolean,
         'for_rent' => $faker->boolean,
         'region_id' => function () {

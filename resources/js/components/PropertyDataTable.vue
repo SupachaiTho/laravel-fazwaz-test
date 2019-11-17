@@ -1,18 +1,16 @@
 <template>
     <div class="projects">
-        <div class="tableFilters">
-            <input class="input" type="text" v-model="tableData.search" placeholder="Search Table"
-                   @input="getProjects()">
-
-            <!-- <div class="control">
-                <div class="select">
-                    <select v-model="tableData.length" @change="getProjects()">
-                        <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
-                    </select>
-                </div>
-            </div> -->
-        </div>
-        <datatable :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
+        <datatable
+            :columns="columns"
+            :sortKey="sortKey"
+            :sortOrders="sortOrders"
+            :tableData="tableData"
+            :propertyTypes="propertyTypes"
+            :statuses="statuses"
+            :countries="countries"
+            @getProperties="getProperties"
+            @sort="sortBy"
+        >
             <tbody>
                 <tr v-for="property in properties" :key="property.property_id">
                     <td>{{property.property_title}}</td>
@@ -29,8 +27,8 @@
             </tbody>
         </datatable>
         <pagination :pagination="pagination"
-                    @prev="getProjects(pagination.prevPageUrl)"
-                    @next="getProjects(pagination.nextPageUrl)">
+                    @prev="getProperties(pagination.prevPageUrl)"
+                    @next="getProperties(pagination.nextPageUrl)">
         </pagination>
     </div>
 </template>
@@ -39,10 +37,18 @@
 import Datatable from './Datatable.vue';
 import Pagination from './Pagination.vue';
 export default {
-    props: ['url'],
+    props: [
+        'fetch_properties_url',
+        'fetch_propertity_types_url',
+        'fetch_statuses_url',
+        'fetch_countries_url',
+        ],
     components: { datatable: Datatable, pagination: Pagination },
     created() {
-        this.getProjects();
+        this.getProperties();
+        this.getPropertyTypes();
+        this.getStatues();
+        this.getCountries();
     },
     data() {
         let sortOrders = {};
@@ -105,15 +111,27 @@ export default {
 
         return {
             properties: [],
+            propertyTypes: [],
+            statuses: [],
+            countries: [],
             columns: columns,
             sortKey: 'property_title',
             sortOrders: sortOrders,
             tableData: {
                 draw: 0,
                 length: 20,
-                search: '',
                 column: 0,
                 dir: 'asc',
+                filterTitle: '',
+                filterDescription: '',
+                filterBedroom: null,
+                filterBathroom: null,
+                filterType: null,
+                filterStatus: null,
+                filterForSale: null,
+                filterForRent: null,
+                filterProject: '',
+                filterCountry: null,
             },
             pagination: {
                 lastPage: '',
@@ -128,12 +146,10 @@ export default {
         }
     },
     methods: {
-        getProjects(url = this.url) {
-            console.warn(url);
+        getProperties(url = this.fetch_properties_url) {
             this.tableData.draw++;
             axios.get(url, {params: this.tableData})
                 .then(response => {
-                    console.warn(response);
                     let data = response.data;
                     if (this.tableData.draw == data.draw) {
                         this.properties = data.data.data;
@@ -144,8 +160,37 @@ export default {
                     console.log(errors);
                 });
         },
+        getPropertyTypes(url = this.fetch_propertity_types_url) {
+            axios.get(url)
+                .then(response => {
+                    let data = response.data;
+                    this.propertyTypes = data.data;
+                })
+                .catch(errors => {
+                    console.log(errors);
+                });
+        },
+        getStatues(url = this.fetch_statuses_url) {
+            axios.get(url)
+                .then(response => {
+                    let data = response.data;
+                    this.statuses = data.data;
+                })
+                .catch(errors => {
+                    console.log(errors);
+                });
+        },
+        getCountries(url = this.fetch_countries_url) {
+            axios.get(url)
+                .then(response => {
+                    let data = response.data;
+                    this.countries = data.data;
+                })
+                .catch(errors => {
+                    console.log(errors);
+                });
+        },
         configPagination(data) {
-            console.warn(data);
             this.pagination.lastPage = data.last_page;
             this.pagination.currentPage = data.current_page;
             this.pagination.total = data.total;
@@ -159,8 +204,8 @@ export default {
             this.sortKey = key;
             this.sortOrders[key] = this.sortOrders[key] * -1;
             this.tableData.column = this.getIndex(this.columns, 'name', key);
-            this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
-            this.getProjects();
+            this.tableData.dir = this.sortOrders[key] === 1 ? 'desc' : 'asc';
+            this.getProperties();
         },
         getIndex(array, key, value) {
             return array.findIndex(i => i[key] == value)

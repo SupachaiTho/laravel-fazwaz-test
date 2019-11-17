@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/properties', 'Api\PropertiesController@index')->name('properties.api');;
+Route::get('/properties', 'Api\PropertiesController@index')->name('properties.api');
+Route::get('/property_types', 'Api\PropertyTypesController@index')->name('property_types.api');
+Route::get('/statuses', 'Api\StatusesController@index')->name('statuses.api');
+Route::get('/countries', 'Api\CountriesController@index')->name('countries.api');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

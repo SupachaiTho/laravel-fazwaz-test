@@ -1853,8 +1853,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['columns', 'sortKey', 'sortOrders']
+  props: ['columns', 'sortKey', 'sortOrders', 'tableData', 'propertyTypes', 'statuses', 'countries'],
+  data: function data() {
+    return {
+      arrayNumber: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      arrayBoolean: ['No', 'Yes']
+    };
+  },
+  methods: {
+    numberToBoolean: function numberToBoolean(number) {
+      return number === 1 ? true : false;
+    }
+  }
 });
 
 /***/ }),
@@ -1953,18 +2034,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['url'],
+  props: ['fetch_properties_url', 'fetch_propertity_types_url', 'fetch_statuses_url', 'fetch_countries_url'],
   components: {
     datatable: _Datatable_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     pagination: _Pagination_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   created: function created() {
-    this.getProjects();
+    this.getProperties();
+    this.getPropertyTypes();
+    this.getStatues();
+    this.getCountries();
   },
   data: function data() {
     var sortOrders = {};
@@ -2014,15 +2096,27 @@ __webpack_require__.r(__webpack_exports__);
     });
     return {
       properties: [],
+      propertyTypes: [],
+      statuses: [],
+      countries: [],
       columns: columns,
       sortKey: 'property_title',
       sortOrders: sortOrders,
       tableData: {
         draw: 0,
         length: 20,
-        search: '',
         column: 0,
-        dir: 'asc'
+        dir: 'asc',
+        filterTitle: '',
+        filterDescription: '',
+        filterBedroom: null,
+        filterBathroom: null,
+        filterType: null,
+        filterStatus: null,
+        filterForSale: null,
+        filterForRent: null,
+        filterProject: '',
+        filterCountry: null
       },
       pagination: {
         lastPage: '',
@@ -2037,16 +2131,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getProjects: function getProjects() {
+    getProperties: function getProperties() {
       var _this = this;
 
-      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.url;
-      console.warn(url);
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.fetch_properties_url;
       this.tableData.draw++;
       axios.get(url, {
         params: this.tableData
       }).then(function (response) {
-        console.warn(response);
         var data = response.data;
 
         if (_this.tableData.draw == data.draw) {
@@ -2058,8 +2150,40 @@ __webpack_require__.r(__webpack_exports__);
         console.log(errors);
       });
     },
+    getPropertyTypes: function getPropertyTypes() {
+      var _this2 = this;
+
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.fetch_propertity_types_url;
+      axios.get(url).then(function (response) {
+        var data = response.data;
+        _this2.propertyTypes = data.data;
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
+    },
+    getStatues: function getStatues() {
+      var _this3 = this;
+
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.fetch_statuses_url;
+      axios.get(url).then(function (response) {
+        var data = response.data;
+        _this3.statuses = data.data;
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
+    },
+    getCountries: function getCountries() {
+      var _this4 = this;
+
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.fetch_countries_url;
+      axios.get(url).then(function (response) {
+        var data = response.data;
+        _this4.countries = data.data;
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
+    },
     configPagination: function configPagination(data) {
-      console.warn(data);
       this.pagination.lastPage = data.last_page;
       this.pagination.currentPage = data.current_page;
       this.pagination.total = data.total;
@@ -2073,8 +2197,8 @@ __webpack_require__.r(__webpack_exports__);
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] * -1;
       this.tableData.column = this.getIndex(this.columns, 'name', key);
-      this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
-      this.getProjects();
+      this.tableData.dir = this.sortOrders[key] === 1 ? 'desc' : 'asc';
+      this.getProperties();
     },
     getIndex: function getIndex(array, key, value) {
       return array.findIndex(function (i) {
@@ -38045,6 +38169,524 @@ var render = function() {
     { staticClass: "table is-bordered data-table" },
     [
       _c("thead", [
+        _c("tr", [
+          _c("th", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tableData.filterTitle,
+                  expression: "tableData.filterTitle"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text", placeholder: "Filter Title" },
+              domProps: { value: _vm.tableData.filterTitle },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.tableData, "filterTitle", $event.target.value)
+                  },
+                  function($event) {
+                    return _vm.$emit("getProperties")
+                  }
+                ]
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tableData.filterDescription,
+                  expression: "tableData.filterDescription"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text", placeholder: "Filter Description" },
+              domProps: { value: _vm.tableData.filterDescription },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.tableData,
+                      "filterDescription",
+                      $event.target.value
+                    )
+                  },
+                  function($event) {
+                    return _vm.$emit("getProperties")
+                  }
+                ]
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterBedroom,
+                      expression: "tableData.filterBedroom"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterBedroom",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.arrayNumber, function(index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: index } },
+                      [_vm._v(_vm._s(index))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterBathroom,
+                      expression: "tableData.filterBathroom"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterBathroom",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.arrayNumber, function(index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: index } },
+                      [_vm._v(_vm._s(index))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterType,
+                      expression: "tableData.filterType"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterType",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.propertyTypes, function(type) {
+                    return _c(
+                      "option",
+                      {
+                        key: type.id,
+                        domProps: { value: type.property_type_title }
+                      },
+                      [_vm._v(_vm._s(type.property_type_title))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterStatus,
+                      expression: "tableData.filterStatus"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterStatus",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.statuses, function(status) {
+                    return _c(
+                      "option",
+                      {
+                        key: status.id,
+                        domProps: { value: status.status_title }
+                      },
+                      [_vm._v(_vm._s(status.status_title))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterForSale,
+                      expression: "tableData.filterForSale"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterForSale",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.arrayBoolean, function(bool, index) {
+                    return _c(
+                      "option",
+                      {
+                        key: index,
+                        domProps: { value: _vm.numberToBoolean(index) }
+                      },
+                      [_vm._v(_vm._s(bool))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterForRent,
+                      expression: "tableData.filterForRent"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterForRent",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.arrayBoolean, function(bool, index) {
+                    return _c(
+                      "option",
+                      {
+                        key: index,
+                        domProps: { value: _vm.numberToBoolean(index) }
+                      },
+                      [_vm._v(_vm._s(bool))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tableData.filterProject,
+                  expression: "tableData.filterProject"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text", placeholder: "Filter Project" },
+              domProps: { value: _vm.tableData.filterProject },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.tableData,
+                      "filterProject",
+                      $event.target.value
+                    )
+                  },
+                  function($event) {
+                    return _vm.$emit("getProperties")
+                  }
+                ]
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tableData.filterCountry,
+                      expression: "tableData.filterCountry"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.tableData,
+                          "filterCountry",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("getProperties")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: null } },
+                    [_vm._v("All")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.countries, function(country) {
+                    return _c(
+                      "option",
+                      {
+                        key: country.id,
+                        domProps: { value: country.country_title }
+                      },
+                      [_vm._v(_vm._s(country.country_title))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
         _c(
           "tr",
           _vm._l(_vm.columns, function(column) {
@@ -38054,7 +38696,7 @@ var render = function() {
                 key: column.name,
                 class:
                   _vm.sortKey === column.name
-                    ? _vm.sortOrders[column.name] > 0
+                    ? _vm.sortOrders[column.name] < 0
                       ? "sorting_asc"
                       : "sorting_desc"
                     : "sorting",
@@ -38190,44 +38832,19 @@ var render = function() {
     "div",
     { staticClass: "projects" },
     [
-      _c("div", { staticClass: "tableFilters" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.tableData.search,
-              expression: "tableData.search"
-            }
-          ],
-          staticClass: "input",
-          attrs: { type: "text", placeholder: "Search Table" },
-          domProps: { value: _vm.tableData.search },
-          on: {
-            input: [
-              function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.tableData, "search", $event.target.value)
-              },
-              function($event) {
-                return _vm.getProjects()
-              }
-            ]
-          }
-        })
-      ]),
-      _vm._v(" "),
       _c(
         "datatable",
         {
           attrs: {
             columns: _vm.columns,
             sortKey: _vm.sortKey,
-            sortOrders: _vm.sortOrders
+            sortOrders: _vm.sortOrders,
+            tableData: _vm.tableData,
+            propertyTypes: _vm.propertyTypes,
+            statuses: _vm.statuses,
+            countries: _vm.countries
           },
-          on: { sort: _vm.sortBy }
+          on: { getProperties: _vm.getProperties, sort: _vm.sortBy }
         },
         [
           _c(
@@ -38264,10 +38881,10 @@ var render = function() {
         attrs: { pagination: _vm.pagination },
         on: {
           prev: function($event) {
-            return _vm.getProjects(_vm.pagination.prevPageUrl)
+            return _vm.getProperties(_vm.pagination.prevPageUrl)
           },
           next: function($event) {
-            return _vm.getProjects(_vm.pagination.nextPageUrl)
+            return _vm.getProperties(_vm.pagination.nextPageUrl)
           }
         }
       })

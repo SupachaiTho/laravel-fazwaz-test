@@ -21,7 +21,12 @@
 </head>
 <body>
     <div id="app">
-        <property-data-table url="{{ route('properties.api') }}">
+        <property-data-table
+            fetch_properties_url="{{ route('properties.api') }}"
+            fetch_propertity_types_url="{{ route('property_types.api') }}"
+            fetch_statuses_url="{{ route('statuses.api') }}"
+            fetch_countries_url="{{ route('countries.api') }}"
+        >
         </property-data-table>
     </div>
 </body>
