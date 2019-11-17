@@ -5,25 +5,27 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Property::class, function (Faker $faker) {
+    static $number = 1;
     return [
+        'property_id' => $number++,
         'property_title' => $faker->name,
         'description' => $faker->text,
         'bedroom' => $faker->randomDigitNot(2),
         'bathroom' => rand(0,10),
         'for_sale' => $faker->boolean,
         'for_rent' => $faker->boolean,
-        // 'region_id' => function () {
-        //     return App\Region::inRandomOrder()->first()->id;
-        // },
-        // 'property_type_id' => function () {
-        //     return App\PropertyType::inRandomOrder()->first()->id;
-        // },
-        // 'project_id' => function () {
-        //     return App\Project::where('id','>','1')->inRandomOrder()->first()->id;
-        // },
-        // 'status_id' => function () {
-        //     return App\Status::inRandomOrder()->first()->id;
-        // },
+        'region_id' => function () {
+            return App\Region::inRandomOrder()->first()->id;
+        },
+        'property_type_id' => function () {
+            return App\PropertyType::inRandomOrder()->first()->id;
+        },
+        'project_id' => function () {
+            return App\Project::where('id','>','1')->inRandomOrder()->first()->id;
+        },
+        'status_id' => function () {
+            return App\Status::inRandomOrder()->first()->id;
+        },
     ];
 });
 
