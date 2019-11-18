@@ -31,6 +31,7 @@
 ### test Seeding (state 3)
  - at default this test will be skipped.
  - make the change following the comment in `tests/Unit/SeederTest.php`
+ - if you did not run `php artisan migrate:fresh --seed` command, Please run it before run test
  - then run `phpunit --testsuite Seeder`
 ### Unit test
  - test all model attribute and relationship.
