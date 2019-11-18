@@ -3,11 +3,11 @@
  - vue@2.5.17
 ## Installation
  - Clone project
- - run composer install
- - run npm install
- - run migrate:fresh --seed
- - run npm run dev
- - run php artisan serve
+ - run `composer install`
+ - run `npm install`
+ - run `migrate:fresh --seed`
+ - run `npm run dev`
+ - run `php artisan serve`
  - visit http://127.0.0.1:8000/
 ## Feature
  - Filtering with Text(non sensitive-case)
@@ -15,10 +15,9 @@
  - Sorting
 ## Testing (phpunit)
 ### test Seeding (state 3)
- - /tests/Unit/SeederTest.php
  - at default this test will be skipped.
- - make the change following the comment in tests/Unit/SeederTest.php
- - then run phpunit --testsuite Seeder
+ - make the change following the comment in `tests/Unit/SeederTest.php`
+ - then run `phpunit --testsuite Seeder`
 ### Unit test
  - test all model attribute and relationship.
  - test Feature test
