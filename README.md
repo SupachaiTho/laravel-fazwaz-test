@@ -2,11 +2,6 @@
  - laravel@6.2
  - vue@2.5.17
 ## Installation
- - `git clone git@github.com:SupachaiTho/laravel-fazwaz-test.git`
- - `cd laravel-fazwaz-test`
- - `composer install`
- - `npm install`
- - `npm run dev`
  - create `mysql` at local following
   ```
     DB_CONNECTION=mysql
@@ -16,8 +11,16 @@
     DB_USERNAME=root
     DB_PASSWORD=root
   ```
- - `php artisan migrate:fresh --seed`
- - `php artisan serve`
+ - rename `.env.example` to `.env`
+ - run
+  ```
+  git clone git@github.com:SupachaiTho/laravel-fazwaz-test.git
+  cd laravel-fazwaz-test
+  composer install
+  npm run dev
+  php artisan migrate:fresh --seed
+  php artisan serve
+  ```
  - visit http://127.0.0.1:8000/
 
 ## Feature
