@@ -38,7 +38,7 @@
  - test all api in project
 ## Demo
  - https://laravufazwaz.herokuapp.com/
- - database is not match at State 3 because of issue with free-plan on heroku, it terminate the process after run for 2 hours still not finish.
+ - database is not match at `State 3` because of issue with `free-plan` on heroku, it terminate the process after run for 2 hours still not finish.
 ## Future Implement
  - Implement materialized view for this code, so the App will much more faster.
  ```
