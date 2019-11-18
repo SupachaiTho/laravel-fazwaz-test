@@ -20,11 +20,11 @@ class SeederTest extends TestCase
      * @return void
      */
 
-    // How To Test State 3
+    // How To Test State 3, after test all production db will gone.
     // 1. REMOVE line 34 and 35 at phpunit.xml
     // 2. REMOVE protected function setUp at SeederTest.php
     // 3. run `php artisan migrate:fresh --seed`
-    // 4. run `vendor/bin/phpunit`
+    // 4. run `vendor/bin/phpunit --testsuite Seeder`
     
     protected function setUp(): void 
     {
